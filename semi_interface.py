@@ -142,8 +142,8 @@ class SemiCoast(SemiCoastBase):
     def interface(self, N=100):
         # returns (x, z) where z is interface elevation for N points
         if self.case == 1:
-            phi = nan * ones(N)
             u = np.linspace(-self.doverlab, self.Loverlab, N)
+            phi = np.ones_like(u)
             u1 = (-self.doverlab <= u) & (u <= 0)
             phi[u1] = sqrt(-2 * self.mu * u[u1] + self.phi0 ** 2)  # Eq. 27
             u2 = (0 < u) & (u <= self.Loverlab)
@@ -205,7 +205,7 @@ class SemiCoast(SemiCoastBase):
                 u = (self.phi0 - phi) * (self.nu * self.H) / (
                     self.grad * self.lab) - self.doverlab
             else:
-                u = -doverlab
+                u = -self.doverlab
             x = (self.doverlab + u) * self.lab
         elif self.case == 3:
             if phi >= 1:
